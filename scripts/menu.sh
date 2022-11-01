@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-LINKS="./links/"
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+LINKS="$CURRENT_DIR/../links/"
 
-a=($(ls links)) # Gets list of bookmarks
+a=($(ls $LINKS)) # Gets list of bookmarks
 lim=${#a[@]}
 i=0
 cmd=('whiptail' '--title "Hello THere!"' '--menu Hello 20 60 10')
@@ -17,8 +18,6 @@ done
 
 cmd+=("3>&1 1>&2 2>&3")
 
-#echo "${cmd[@]}"
-
 i=$(eval ${cmd[@]})
 i=$(($i - 1))
-eval "cd $(readlink -f $LINKS${a[$i]})"
+#eval "cd $(readlink -f $LINKS${a[$i]})"
