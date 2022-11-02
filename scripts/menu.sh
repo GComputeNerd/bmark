@@ -22,6 +22,13 @@ gen_cmd () {
 
 	cmd+=('whiptail'  '--menu "Select Bookmark!" 20 60 10')
 
+	if [ ! $path -ef $LINKS ]; then
+		cmd+=('".." "Back"')
+	fi
+
+	if [ -L "$path/.main" ]; then
+		cmd+=("." "root")
+	fi
 
 	while [ $i -ne $lim ];
 	do
@@ -35,8 +42,15 @@ gen_cmd () {
 
 run_cmd () {
 	i=$(eval ${cmd[@]})
-	i=$(($i - 1))
-	cmd="$path/${a[$i]}" # Gets Selected File/Directory
+
+	if [ "$i" = ".." ]; then
+		cmd="$path/.."
+	elif [ "$i" = "." ]; then
+		cmd="$path/.main"
+	else
+		i=$(($i - 1))
+		cmd="$path/${a[$i]}" # Gets Selected File/Directory
+	fi
 }
 
 while [ $stay -eq 1 ]; do
