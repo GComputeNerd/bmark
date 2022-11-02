@@ -42,3 +42,47 @@ ln -s ~/Downloads Downloads
 Now if we run the `bmark` command, we should see.
 
 [Insert Image Here]
+
+If we want to group links into folders (example :- we want to have a Programming category, which has links to your C, or lua folder).
+
+Then we have to do the following
+
+```bash
+cd links
+mkdir Programming
+cd Programming
+ln -s ~/Programming/C C
+ln -s ~/Programming/lua Lua
+```
+
+so now our links folder should be like this.
+
+```
+bmark/links/
+|----Downloads
+|----Programming
+     |----C
+     |----Lua
+```
+
+Now, if we run `bmark`, we should see.
+
+[Insert Image Here]
+
+and if we click on Programming, we should see.
+
+[Insert Image Here]
+
+Now you should be able to make your own set of bookmarks, you can nest folders if you want to as well.
+
+An additional note, say you want to have a Programming bookmark that links to `~/Programming` then you can do the following.
+
+```bash
+cd links
+cd Programming
+ln -s ~/Programming .main
+```
+
+Now if we run `bmark` and go to programming, we can see a `Home` option, clicking this will take us to `~/Programming`
+
+[Insert Image Here]
