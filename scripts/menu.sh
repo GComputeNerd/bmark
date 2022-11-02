@@ -1,43 +1,53 @@
 #!/usr/bin/env bash
 
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-LINKS="$CURRENT_DIR/../links/"
+LINKS="$CURRENT_DIR/../links"
 
-a=($(ls $LINKS)) # Gets list of bookmarks
-lim=${#a[@]}
-i=0
-cmd=("NEWT_COLORS='root=blue,black
-	border=green,black
-	window=,black
-	button=black,green
-	sellistbox=green,black
-	actsellistbox=black,green
-	listbox=green,black
-	actlistbox=green,black
-	textbox=green,black
-	compactbutton=green,black'")
+stay=1
+path="$LINKS"
 
-# root : Background
-# border : Border
-# window : Window
-# textbox : Text
-# actsellistbox : List Selected
-# actlistbox : List Unselected
-# button : Button selected
-# compactbutton : Button unselected
+gen_cmd () {
+	a=($(ls $path)) # Gets list of bookmarks
+	lim=${#a[@]}
+	i=0
+	cmd=("NEWT_COLORS='root=,black
+		border=green,black
+		window=,black
+		button=black,green
+		actsellistbox=black,green
+		listbox=green,black
+		actlistbox=green,black
+		textbox=green,black
+		compactbutton=green,black'")
 
-cmd+=('whiptail'  '--menu "Select Bookmark!" 20 60 10')
+	cmd+=('whiptail'  '--menu "Select Bookmark!" 20 60 10')
 
 
-while [ $i -ne $lim ];
-do
-	cmd+=("'$(($i+1))'")
-	cmd+=("'${a[$i]}'")
-	i=$(($i + 1))
+	while [ $i -ne $lim ];
+	do
+		cmd+=("'$(($i+1))'")
+		cmd+=("'${a[$i]}'")
+		i=$(($i + 1))
+	done
+
+	cmd+=("3>&1 1>&2 2>&3")
+}
+
+run_cmd () {
+	i=$(eval ${cmd[@]})
+	i=$(($i - 1))
+	cmd="$path/${a[$i]}" # Gets Selected File/Directory
+}
+
+while [ $stay -eq 1 ]; do
+	gen_cmd
+	run_cmd
+
+	if [ ! -L $cmd ] && [ -d $cmd ]; then
+		path="$cmd"
+	else
+		stay=0
+	fi
 done
 
-cmd+=("3>&1 1>&2 2>&3")
-
-i=$(eval ${cmd[@]})
-i=$(($i - 1))
-eval "cd $(readlink -f $LINKS${a[$i]})"
+eval "cd $(readlink -f $cmd)"
