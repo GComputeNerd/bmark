@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-LINKS="$CURRENT_DIR/../links"
+LINKS="$CURRENT_DIR/links"
 
 stay=1
 path="$LINKS"
@@ -68,6 +68,8 @@ if [ $# -eq 0 ]; then
 	eval "cd $(readlink -f $cmd)"
 elif [ "$1" = "add" ]; then
 	eval "cd $LINKS"
+elif [ "$1" = "r" ]; then
+	eval "source ~/.bashrc"
 else
 	echo "Argument Given..Searching for link!"
 	a="$(find $LINKS -name $1)"
