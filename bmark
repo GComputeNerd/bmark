@@ -42,8 +42,9 @@ gen_cmd () {
 
 run_cmd () {
 	i=$(eval ${cmd[@]})
-
-	if [ "$i" = ".." ]; then
+	if [ "$i" = "" ]; then
+		cmd="!!"
+	elif [ "$i" = ".." ]; then
 		cmd="$path/.."
 	elif [ "$i" = "." ]; then
 		cmd="$path/.main"
@@ -57,15 +58,17 @@ if [ $# -eq 0 ]; then
 	while [ $stay -eq 1 ]; do
 		gen_cmd
 		run_cmd
-	
-		if [ ! -L $cmd ] && [ -d $cmd ]; then
+
+		if [ $cmd = "!!" ]; then
+			echo "Exiting..."
+			stay=0
+		elif [ ! -L $cmd ] && [ -d $cmd ]; then
 			path="$cmd"
 		else
 			stay=0
+			eval "cd $(readlink -f $cmd)"
 		fi
 	done
-	
-	eval "cd $(readlink -f $cmd)"
 elif [ "$1" = "add" ]; then
 	eval "cd $LINKS"
 elif [ "$1" = "r" ]; then
