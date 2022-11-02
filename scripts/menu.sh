@@ -53,15 +53,29 @@ run_cmd () {
 	fi
 }
 
-while [ $stay -eq 1 ]; do
-	gen_cmd
-	run_cmd
+if [ $# -eq 0 ]; then
+	while [ $stay -eq 1 ]; do
+		gen_cmd
+		run_cmd
+	
+		if [ ! -L $cmd ] && [ -d $cmd ]; then
+			path="$cmd"
+		else
+			stay=0
+		fi
+	done
+	
+	eval "cd $(readlink -f $cmd)"
+elif [ "$1" = "add" ]; then
+	eval "cd $LINKS"
+else
+	echo "Argument Given..Searching for link!"
+	a="$(find $LINKS -name $1)"
 
-	if [ ! -L $cmd ] && [ -d $cmd ]; then
-		path="$cmd"
+	if [ -L $a ] && [ $(find $LINKS -name $1 | wc -l) -ne 0 ]; then
+		echo "Link Found...Changing Directory!"
+		eval "cd $(readlink -f $a)"
 	else
-		stay=0
+		echo "LINK NOT FOUND!"
 	fi
-done
-
-eval "cd $(readlink -f $cmd)"
+fi
