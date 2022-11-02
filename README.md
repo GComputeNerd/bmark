@@ -1,5 +1,7 @@
 # bmark
 
+![screenshot2](img/sc2.png)
+
 This is a terminal program used to mamke switching between commonly used directories easy!
 
 ## Installation
@@ -41,7 +43,7 @@ ln -s ~/Downloads Downloads
 
 Now if we run the `bmark` command, we should see.
 
-[Insert Image Here]
+![screenshot1](img/sc1.png)
 
 If we want to group links into folders (example :- we want to have a Programming category, which has links to your C, or lua folder).
 
@@ -67,11 +69,11 @@ bmark/links/
 
 Now, if we run `bmark`, we should see.
 
-[Insert Image Here]
+![screenshot2](img/sc2.png)
 
 and if we click on Programming, we should see.
 
-[Insert Image Here]
+![screenshot3](img/sc3.png)
 
 Now you should be able to make your own set of bookmarks, you can nest folders if you want to as well.
 
@@ -85,7 +87,7 @@ ln -s ~/Programming .main
 
 Now if we run `bmark` and go to programming, we can see a `root` option, clicking this will take us to `~/Programming`
 
-[Insert Image Here]
+![screenshot4](img/sc4.png)
 
 ### Running bmark without TUI
 
