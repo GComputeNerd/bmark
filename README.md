@@ -83,6 +83,25 @@ cd Programming
 ln -s ~/Programming .main
 ```
 
-Now if we run `bmark` and go to programming, we can see a `Home` option, clicking this will take us to `~/Programming`
+Now if we run `bmark` and go to programming, we can see a `root` option, clicking this will take us to `~/Programming`
 
 [Insert Image Here]
+
+### Running bmark without TUI
+
+bmark can also be run without going to the TUI. Say you just want to go to the `lua` folder directly without opening bmark, clicking on Programming, and clicking on Lua. Then we can also go to the lua folder by typing the name of the soft link directly like this.
+
+```bash
+bmark Lua
+```
+
+When we type this, bmark will scan the `bmark/links` folder, and subfolders searching for soft links with the name `Lua`, if one is found, it'll directly go there.
+
+There is also one more added functionality to bmark, if you run
+
+```bash
+bmark r
+```
+
+it will source your `~/.bashrc`
+
